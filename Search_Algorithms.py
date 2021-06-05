@@ -64,4 +64,4 @@ class GraphBFs:
                     return True, list(path)
 
         path.pop()
-        return False
+        return False, "No path"
