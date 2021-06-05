@@ -6,7 +6,6 @@ from collections import deque
 
 g = GraphBFs()
 path = deque()
-discovered = [False] * len(g.graph)
 
 
 class App(tk.Tk):
@@ -49,6 +48,8 @@ class App(tk.Tk):
         self.canvas.delete("all")
         self.text.configure(text='')
 
+        path.clear()
+
     def draw_circle(self, x, y, rad):
         self.canvas.create_oval(x - rad, y - rad, x + rad, y + rad, width=3, fill='white')
 
@@ -60,10 +61,20 @@ class App(tk.Tk):
         else:
             return False
 
-    def get_shortest_path(self,node1, node2, shortest_path):
+    def get_shortest_path(self, node1, node2, shortest_path):
         # check if first element and last element are start and goal nodes
+        bool1, bool2 = False, False
+        for i in shortest_path:
+            if node1 == i:
+                bool1 = True
+                break
+        for i in shortest_path:
+            if node2 == i:
+                bool2 = True
+                break
+
         if not self.check_shortest_path(shortest_path):
-            if node1 == shortest_path[0] and node2 == shortest_path[-1]:
+            if bool1 and bool2:
                 self.text.configure(text=shortest_path)
                 return True
             elif shortest_path == "Same Node":
@@ -80,20 +91,22 @@ class App(tk.Tk):
             goal = int(goal)
 
         if btn == 'bfs':
-            shortest_path = g.BFS(start, goal)
+            shortest_path = g.bfs(start, goal)
         else:
-            _, shortest_path = g.DFS(start, goal, path, discovered)
+            _, shortest_path = g.DFS(start, goal, path)
 
         return shortest_path
 
     def draw_lines(self, keys, coordinates, values, shortest_path):
+        colored = []
         for i in range(len(keys)):
             for j in range(len(values[i])):
                 # get index of next node to draw arrow
                 index = keys.index(values[i][j])
                 condition = self.get_shortest_path(keys[i], keys[index], shortest_path)
                 # if there is a shortest path, it will change its color to red
-                if condition:
+                if condition and keys[i] not in colored:
+                    colored.append(keys[i])
                     self.canvas.create_line(coordinates[i][0], coordinates[i][1] + 10,
                                             coordinates[index][0], coordinates[index][1] + 10,
                                             width=2, arrow=tk.LAST, fill="red")
@@ -107,6 +120,7 @@ class App(tk.Tk):
         start = self.start.get()
         goal = self.end.get()
         shortest_path = self.check_digits(start, goal, btn)
+
         self.draw_lines(keys, coordinates, values, shortest_path)
 
     def draw_graph(self, btn):
@@ -118,7 +132,7 @@ class App(tk.Tk):
             y = random.randrange(30, 650)
             coordinates.append((x, y))
             self.draw_circle(x, y, 30)
-            self.canvas.create_text(x, y, fill="black", font="Helvetica",text=keys[i])
+            self.canvas.create_text(x, y, fill="black", font="Helvetica", text=keys[i])
 
         self.get_data(coordinates, keys, btn)
         self.bfs_btn.configure(state=DISABLED)
