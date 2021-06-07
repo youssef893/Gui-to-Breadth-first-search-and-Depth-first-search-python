@@ -11,7 +11,7 @@ class Graph:
         self.graph[node1].append(node2)
 
     def add_node(self, ):
-        self.add_edge(0, 1) # list {0:[1,2]}
+        self.add_edge(0, 1)
         self.add_edge(1, 2)
         self.add_edge(2, 3)
         self.add_edge(3, 4)
@@ -52,8 +52,6 @@ class Graph:
                         print("Shortest path = ", *new_path)
                         return new_path
                 explored.append(node)  # add visited node
-
-        return
 
     def DFS(self, start, goal, path):
         path.append(start)  # add start node to path
