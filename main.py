@@ -61,28 +61,33 @@ class App(tk.Tk):
         else:
             return False
 
+    @staticmethod
+    def check_nodes(node, shortest_path):
+        for i in shortest_path:
+            if node == i:
+                return True
+
+    def set_text(self, bool1, bool2, shortest_path):
+        if bool1 and bool2:
+            self.text.configure(text=shortest_path)
+            return True
+        elif shortest_path == "Same Node":
+            self.text.configure(text="Same Node")
+            return False
+        elif shortest_path == "No Path":
+            self.text.configure(text='There is no path')
+            return False
+        else:
+            return False
+
     def get_shortest_path(self, node1, node2, shortest_path):
         # check if node1 and node2 are in shortest_path
         bool1, bool2 = False, False
         if not self.check_shortest_path(shortest_path):
-            for i in shortest_path:
-                if node1 == i:
-                    bool1 = True
-                    break
-            for i in shortest_path:
-                if node2 == i:
-                    bool2 = True
-                    break
-        # if nodes in shortest path set text by shortest path
-            if bool1 and bool2:
-                self.text.configure(text=shortest_path)
-                return True
-            elif shortest_path == "Same Node":
-                self.text.configure(text="Same Node")
-                return False
-            else:
-                return False
-        return False
+            bool1 = self.check_nodes(node1, shortest_path)
+            bool2 = self.check_nodes(node2, shortest_path)
+            # if nodes in shortest path set text by shortest path
+            return self.set_text(bool1, bool2, shortest_path)
 
     @staticmethod
     def check_digits(start, goal, btn):
