@@ -58,7 +58,7 @@ class Graph:
         path.append(start)  # add start node to path
         if start == goal:
             return True, 'Same Node'
-        elif goal not in self.graph:
+        elif goal not in self.graph or start not in self.graph:
             return True, "No Path"
 
         for i in self.graph[start]:  # get values of this node
