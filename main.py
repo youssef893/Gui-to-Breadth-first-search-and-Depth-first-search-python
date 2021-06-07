@@ -53,19 +53,12 @@ class App(tk.Tk):
     def draw_circle(self, x, y, rad):
         self.canvas.create_oval(x - rad, y - rad, x + rad, y + rad, width=3, fill='white')
 
-    def check_shortest_path(self, shortest_path):
-        # check there is a shortest path between 2 nodes or not
-        if shortest_path is None:
-            self.text.configure(text='There is no path')
-            return True
-        else:
-            return False
-
     @staticmethod
     def check_nodes(node, shortest_path):
-        for i in shortest_path:
-            if node == i:
-                return True
+        if shortest_path is not None:
+            for i in shortest_path:
+                if node == i:
+                    return True
 
     def set_text(self, bool1, bool2, shortest_path):
         if bool1 and bool2:
@@ -74,7 +67,7 @@ class App(tk.Tk):
         elif shortest_path == "Same Node":
             self.text.configure(text="Same Node")
             return False
-        elif shortest_path == "No Path":
+        elif shortest_path == "No Path" or shortest_path is None:
             self.text.configure(text='There is no path')
             return False
         else:
@@ -82,11 +75,10 @@ class App(tk.Tk):
 
     def get_shortest_path(self, node1, node2, shortest_path):
         # check if node1 and node2 are in shortest_path
-        if not self.check_shortest_path(shortest_path):
-            bool1 = self.check_nodes(node1, shortest_path)
-            bool2 = self.check_nodes(node2, shortest_path)
-            # if nodes in shortest path set text by shortest path
-            return self.set_text(bool1, bool2, shortest_path)
+        bool1 = self.check_nodes(node1, shortest_path)
+        bool2 = self.check_nodes(node2, shortest_path)
+        # if nodes in shortest path set text by shortest path
+        return self.set_text(bool1, bool2, shortest_path)
 
     @staticmethod
     def check_digits(start, goal, btn):
