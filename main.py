@@ -82,7 +82,6 @@ class App(tk.Tk):
 
     def get_shortest_path(self, node1, node2, shortest_path):
         # check if node1 and node2 are in shortest_path
-        bool1, bool2 = False, False
         if not self.check_shortest_path(shortest_path):
             bool1 = self.check_nodes(node1, shortest_path)
             bool2 = self.check_nodes(node2, shortest_path)
