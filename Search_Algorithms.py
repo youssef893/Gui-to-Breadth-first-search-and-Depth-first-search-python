@@ -11,7 +11,7 @@ class GraphBFs:
         self.graph[node1].append(node2)
 
     def add_node(self, ):
-        self.add_edge(0, 1)
+        self.add_edge(0, 1) # list {0:[1,2]}
         self.add_edge(1, 2)
         self.add_edge(2, 3)
         self.add_edge(3, 4)
@@ -25,53 +25,43 @@ class GraphBFs:
 
     def bfs(self, start, goal):
         explored = []
-        queue = [[start]]
+        queue = [[start]]  # add start node to queue
 
-        # If the desired node is
-        # reached
-        if start == goal:
+        if start == goal:  # Check if start equal node
             print("Same Node")
-            return
+            return "Same Node"
 
         # Loop to traverse the graph
         # with the help of the queue
         while queue:
-            path = queue.pop(0)
-            node = path[-1]
+            path = queue.pop(0)  # get first element of queue
+            node = path[-1]  # node equal last element in path
 
             # Condition to check if the
             # current node is not visited
             if node not in explored:
-                neighbours = self.graph[node]
-
+                neighbours = self.graph[node]  # get values of this node
                 # Loop to iterate over the
                 # neighbours of the node
                 for neighbour in neighbours:
                     new_path = list(path)
-                    new_path.append(neighbour)
+                    new_path.append(neighbour)  # add neighbour to new path
                     queue.append(new_path)
-
-                    # Condition to check if the
-                    # neighbour node is the goal
+                    # check if goal is reached return shortest path
                     if neighbour == goal:
                         print("Shortest path = ", *new_path)
                         return new_path
-                explored.append(node)
+                explored.append(node)  # add visited node
 
         return
 
     def DFS(self, start, goal, path):
-        keys = list(self.graph.keys())
-        start_index = keys.index(start)
-
-        self.visited[start_index] = True
-        path.append(start)
-
+        path.append(start)  # add start node to path
         if start == goal:
-            return True, list(path)
+            return True, 'Same Node'
 
-        for i in self.graph[start]:
-            if self.DFS(i, goal, path):
+        for i in self.graph[start]:  # get values of this node
+            if self.DFS(i, goal, path):  # check if goal is reached return path
                 print("insid DFS", path)
                 return True, list(path)
 
