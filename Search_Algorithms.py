@@ -6,6 +6,7 @@ class Graph:
         self.graph = defaultdict(list)
         self.add_node()
         self.visited = [False] * len(self.graph)
+        self.num_nodes = len(self.graph)
 
     def add_edge(self, node1, node2):
         self.graph[node1].append(node2)
@@ -57,10 +58,12 @@ class Graph:
         path.append(start)  # add start node to path
         if start == goal:
             return True, 'Same Node'
+        elif goal not in self.graph:
+            return True, "No Path"
 
         for i in self.graph[start]:  # get values of this node
             if self.DFS(i, goal, path):  # check if goal is reached return path
+                self.num_nodes -= 1
                 print("insid DFS", path)
                 return True, list(path)
 
-        return False, "No path"
