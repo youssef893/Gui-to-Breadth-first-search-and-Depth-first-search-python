@@ -62,18 +62,18 @@ class App(tk.Tk):
             return False
 
     def get_shortest_path(self, node1, node2, shortest_path):
-        # check if first element and last element are start and goal nodes
+        # check if node1 and node2 are in shortest_path
         bool1, bool2 = False, False
-        for i in shortest_path:
-            if node1 == i:
-                bool1 = True
-                break
-        for i in shortest_path:
-            if node2 == i:
-                bool2 = True
-                break
-
         if not self.check_shortest_path(shortest_path):
+            for i in shortest_path:
+                if node1 == i:
+                    bool1 = True
+                    break
+            for i in shortest_path:
+                if node2 == i:
+                    bool2 = True
+                    break
+        # if nodes in shortest path set text by shortest path
             if bool1 and bool2:
                 self.text.configure(text=shortest_path)
                 return True
@@ -82,6 +82,7 @@ class App(tk.Tk):
                 return False
             else:
                 return False
+        return False
 
     @staticmethod
     def check_digits(start, goal, btn):
@@ -89,7 +90,7 @@ class App(tk.Tk):
         if start.strip().isdigit():
             start = int(start)
             goal = int(goal)
-
+        # call bfs function if btn is bfs and else dfs
         if btn == 'bfs':
             shortest_path = g.bfs(start, goal)
         else:
@@ -117,10 +118,10 @@ class App(tk.Tk):
 
     def get_data(self, coordinates, keys, btn):
         values = list(g.graph.values())
+        # get data from entries
         start = self.start.get()
         goal = self.end.get()
         shortest_path = self.check_digits(start, goal, btn)
-
         self.draw_lines(keys, coordinates, values, shortest_path)
 
     def draw_graph(self, btn):
