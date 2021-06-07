@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-class GraphBFs:
+class Graph:
     def __init__(self):
         self.graph = defaultdict(list)
         self.add_node()
@@ -65,5 +65,4 @@ class GraphBFs:
                 print("insid DFS", path)
                 return True, list(path)
 
-        path.pop()
         return False, "No path"
