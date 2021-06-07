@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import *
-from Search_Algorithms import GraphBFs
+from Search_Algorithms import Graph
 import random
 from collections import deque
 
-g = GraphBFs()
+g = Graph()
 path = deque()
 
 
