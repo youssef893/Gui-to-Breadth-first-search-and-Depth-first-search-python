@@ -125,9 +125,12 @@ class App(tk.Tk):
         coordinates = []
         for i in range(len(g.graph)):
             # get coordinates of each node
-            x = random.randrange(30, 950)
-            y = random.randrange(30, 650)
-            coordinates.append((x, y))
+            while True:
+                x = random.randrange(30, 950)
+                y = random.randrange(30, 650)
+                if (x and y) not in coordinates:
+                    coordinates.append((x, y)*3)
+                    break
             self.draw_circle(x, y, 30)
             self.canvas.create_text(x, y, fill="black", font="Helvetica", text=keys[i])
 
